@@ -11,11 +11,8 @@
 /tmp/
 .DS_Store
 node_modules/
-package-lock.json
-package.json
 yarn.lock
 ../node_modules/
-../package.json
 ../yarn.lock
 
 # Used by dotenv library to load environment variables.

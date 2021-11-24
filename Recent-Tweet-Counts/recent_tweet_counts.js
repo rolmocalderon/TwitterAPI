@@ -32,7 +32,7 @@ async function getRequest() {
         throw new Error('Unsuccessful request');
     }
 }
-
+    
 (async () => {
 
     try {
