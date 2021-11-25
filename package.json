@@ -1,0 +1,28 @@
+{
+  "name": "twitter",
+  "version": "1.0.0",
+  "description": "Sample code for the Twitter API v2 endpoints.\r Individual API features have folders where you can find examples of usage in several coding languages (Java, Node.js, Python, R, and Ruby).",
+  "main": "index.js",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "esm": "^3.2.25",
+    "express": "^4.17.1",
+    "got": "^11.8.3",
+    "needle": "^3.0.0",
+    "oauth-1.0a": "^2.2.6"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node -r esm app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/twitterdev/Twitter-API-v2-sample-code.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/twitterdev/Twitter-API-v2-sample-code/issues"
+  },
+  "homepage": "https://github.com/twitterdev/Twitter-API-v2-sample-code#readme"
+}

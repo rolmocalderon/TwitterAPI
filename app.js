@@ -13,9 +13,10 @@ app.get('/getAll', async (req, res) => {
         console.log('-----------');
         console.log('Buscando tweets...');
         var response = {};
+        var queryString = req.query.d;
         do{
             let date = response.data ? response.data[response.data.length - 1].created_at : undefined;
-            response = await getRequest(date);
+            response = await getRequest(date, queryString);
             if(response.data && response.data.length > 0 ){
                 
                 array = array.concat(response.data);
@@ -35,14 +36,17 @@ app.listen(process.env.PORT, () =>
   console.log(`Example app listening on port ${process.env.PORT}!`),
 );
 
-async function getRequest(endTime) {
-
-    // Edit query parameters below
+async function getRequest(endTime, queryString) {
     let params = {
-        'query': '("Frente Obrero" OR @frenteobreroesp) -is:retweet',
         'max_results': 100,
         'tweet.fields': 'created_at'
     } 
+
+    if(queryString){
+        params.query = queryString;
+    }else{
+        params.query = '("' + process.env.PRINCIPALSEARCH + '" OR @' + process.env.PRINCIPALACCOUNTSEARCH + ') -is:retweet';
+    }
 
     if(endTime){
         params.end_time = endTime;
