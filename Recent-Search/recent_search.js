@@ -1,51 +1,42 @@
-// Search for Tweets within the past seven days
-// https://developer.twitter.com/en/docs/twitter-api/tweets/search/quick-start/recent-search
-
+require('dotenv').config();
 const needle = require('needle');
+const bearerToken = process.env.BEARER_TOKEN;
 
-// The code below sets the bearer token from your environment variables
-// To set environment variables on macOS or Linux, run the export command below from the terminal:
-// export BEARER_TOKEN='YOUR-TOKEN'
-const token = process.env.BEARER_TOKEN;
+const endpointUrl = 'https://api.twitter.com/2/tweets/search/recent';
 
-const endpointUrl = "https://api.twitter.com/2/tweets/search/recent";
-
-async function getRequest() {
-
-    // Edit query parameters below
-    // specify a search query, and any additional fields that are required
-    // by default, only the Tweet ID and text fields are returned
-    const params = {
-        'query': 'from:twitterdev -is:retweet',
-        'tweet.fields': 'author_id'
-    }
-
-    const res = await needle('get', endpointUrl, params, {
-        headers: {
-            "User-Agent": "v2RecentSearchJS",
-            "authorization": `Bearer ${token}`
+export async function getElements(queryString){
+    var response = {};
+    var elements = [];
+    do{
+        let date = response.data ? response.data[response.data.length - 1].created_at : undefined;
+        response = await getRequest(date, queryString);
+        if(response.data && response.data.length > 0 ){
+            elements = elements.concat(response.data);
         }
-    })
+    }while(response.data && response.data.length > 0);
 
-    if (res.body) {
-        return res.body;
-    } else {
-        throw new Error('Unsuccessful request');
-    }
+    return elements;
 }
 
-(async () => {
-
-    try {
-        // Make request
-        const response = await getRequest();
-        console.dir(response, {
-            depth: null
-        });
-
-    } catch (e) {
-        console.log(e);
-        process.exit(-1);
+async function getRequest(endTime, queryString) {
+    let params = {
+        'max_results': 100,
+        'tweet.fields': 'created_at,public_metrics'
     }
-    process.exit();
-})();
+
+    params.query = queryString ? queryString : '("' + process.env.PRINCIPALSEARCH + '" OR @' + process.env.PRINCIPALACCOUNTSEARCH + ') -is:retweet';
+
+    if(endTime){
+        params.end_time = endTime;
+    }
+
+    const res = await needle('get', endpointUrl, params, { headers: {
+        "authorization": `Bearer ${bearerToken}`
+    }});
+
+    if(res.body) {
+        return res.body;
+    } else {
+        throw new Error ('Unsuccessful request');
+    }
+}
