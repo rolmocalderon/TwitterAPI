@@ -20,5 +20,4 @@ export async function getFollowers() {
     let users = await retrieveData(params, options, url, "user");
 
     return users.length;
-
 }
