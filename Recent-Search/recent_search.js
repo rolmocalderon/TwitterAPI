@@ -1,4 +1,3 @@
-require('dotenv').config();
 import { retrieveData } from '../common/helper';
 const bearerToken = process.env.BEARER_TOKEN;
 const endpointUrl = 'https://api.twitter.com/2/tweets/search/recent';

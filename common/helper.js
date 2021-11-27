@@ -37,7 +37,6 @@ const getPage = async (params, options, nextToken, url, pageOption) => {
 
     try {
         const resp = await needle('get', url, params, options);
-        console.log(resp);
         if (resp.statusCode != 200) {
             console.log(`${resp.statusCode} ${resp.statusMessage}:\n${resp.body.title}`);
             return;

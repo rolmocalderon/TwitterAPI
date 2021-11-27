@@ -1,6 +1,3 @@
-
-require('dotenv').config();
-
 export function getTopElementsCount(elements) {
     var values = {
       'retweets': getTopCounts(elements, 'retweet_count'),

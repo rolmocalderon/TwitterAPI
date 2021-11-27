@@ -1,4 +1,3 @@
-require('dotenv').config();
 import { retrieveData } from '../common/helper';
 const url = `https://api.twitter.com/2/users/${process.env.USERID}/tweets`;
 const bearerToken = process.env.BEARER_TOKEN;
@@ -33,22 +32,23 @@ export function getTopElementsCount(elements) {
 }
 
 function getTopCounts(elements, metricKey){
-  var maxValues = [];
+  var values = [];
   for(let element of elements){
-      let elementRtCount = element.public_metrics[metricKey];
-      if(maxValues.length >= process.env.TOPCOUNTS) {
-          if(Math.min(...maxValues) < elementRtCount){
-              let index = maxValues.findIndex(x => Math.min(...maxValues) == x);
-              maxValues[index] = Number(elementRtCount);
+      let elementCount = element.public_metrics[metricKey];
+      if(values.length >= process.env.TOPCOUNTS) {
+          var minElement = values.find(x => x.public_metrics[metricKey] < elementCount);
+          if(minElement){
+              let index = values.findIndex(x => minElement.id == x.id);
+              values[index] = element;
           }
       }else{
-          maxValues.push(Number(elementRtCount));
+          values.push(element);
       }
   }
 
-  maxValues.sort(function(a, b) {
+  values.sort(function(a, b) {
     return a < b;
   });
 
-  return maxValues;
+  return values;
 }

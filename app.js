@@ -14,7 +14,7 @@ app.get('/getAll', async (req, res) => {
         array = await getElements(queryString);
         console.log("Total de twits encontrados:", array.length);
     } catch(e) {
-        console.log("getAll failed", e);
+        console.error("getAll error", e);
     }
 
     return res.json(JSON.stringify(array));
@@ -27,7 +27,7 @@ app.get('/getTopCounts', async(req, res) => {
         var elements = getTopElementsCount(userTweets);
         console.log("Info encontrada:", elements);
     }catch(e) {
-        console.log("getTopCounts", e);
+        console.error("getTopCounts error", e);
     }
     
     return res.json(JSON.stringify(elements));
@@ -39,7 +39,7 @@ app.get('/getFollowers', async(req, res) => {
         var followers = await getFollowers();
         console.log("Numero de followers", followers);
     }catch(e) {
-        console.log("getFollowers", e);
+        console.error("getFollowers error", e);
     }
 
     return res.json(JSON.stringify(followers));
