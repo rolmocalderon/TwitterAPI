@@ -1,7 +1,8 @@
 require('dotenv').config();
 import express from 'express';
-import { getTopElementsCount } from './Tweets-info-Lookup/tweetsInfoLookup'
-import { getElements } from './Recent-Search/recent_search'
+import { getElements } from './Recent-Search/recent_search';
+import { getFollowers } from './Follows-Lookup/followers_lookup';
+import { getUserTweets, getTopElementsCount } from './User-Tweet-Timeline/user_tweets';
 
 const app = express();
 
@@ -13,7 +14,7 @@ app.get('/getAll', async (req, res) => {
         array = await getElements(queryString);
         console.log("Total de twits encontrados:", array.length);
     } catch(e) {
-        console.log(e);
+        console.log("getAll failed", e);
     }
 
     return res.json(JSON.stringify(array));
@@ -22,15 +23,26 @@ app.get('/getAll', async (req, res) => {
 app.get('/getTopCounts', async(req, res) => {
     try{
         console.log('Buscando info en getTopCounts...');
-        let queryString = 'from:frenteobreroesp';
-        var elements = await getElements(queryString);
-        var elements = getTopElementsCount(elements);
-        console.log("Info encontrada:", elements.length);
-    }catch(e){
-        console.log(e);
+        var userTweets = await getUserTweets();
+        var elements = getTopElementsCount(userTweets);
+        console.log("Info encontrada:", elements);
+    }catch(e) {
+        console.log("getTopCounts", e);
     }
     
     return res.json(JSON.stringify(elements));
+});
+
+app.get('/getFollowers', async(req, res) => {
+    try{
+        console.log('Buscando data en getFollowers...');
+        var followers = await getFollowers();
+        console.log("Numero de followers", followers);
+    }catch(e) {
+        console.log("getFollowers", e);
+    }
+
+    return res.json(JSON.stringify(followers));
 });
 
 app.listen(process.env.PORT, () =>
