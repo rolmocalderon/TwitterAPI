@@ -17,7 +17,7 @@ app.get('/getAll', async (req, res) => {
         console.error("getAll error", e);
     }
 
-    return res.json(JSON.stringify(array));
+    return res.json(array);
 });
 
 app.get('/getTopCounts', async(req, res) => {
@@ -30,7 +30,7 @@ app.get('/getTopCounts', async(req, res) => {
         console.error("getTopCounts error", e);
     }
     
-    return res.json(JSON.stringify(elements));
+    return res.json(elements);
 });
 
 app.get('/getFollowers', async(req, res) => {
@@ -42,7 +42,7 @@ app.get('/getFollowers', async(req, res) => {
         console.error("getFollowers error", e);
     }
 
-    return res.json(JSON.stringify(followers));
+    return res.json(followers);
 });
 
 app.listen(process.env.PORT, () =>
