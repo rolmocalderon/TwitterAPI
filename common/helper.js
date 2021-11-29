@@ -1,4 +1,5 @@
 const needle = require('needle');
+const fs = require('fs');
 
 export async function retrieveData(params, options, url, pageOption){
     let hasNextPage = true;
@@ -45,4 +46,35 @@ const getPage = async (params, options, nextToken, url, pageOption) => {
     } catch (err) {
         throw new Error(`Request failed: ${err}`);
     }
+}
+
+/**
+ * 
+ * @param {string} path string that points to the file
+ */
+ export function getJsonData(path) {
+    return fs.readFileSync(path, 'utf8');
+}
+
+export function getTodayDate() {
+    var date = new Date();
+    var today = new Date(Date.UTC(date.getFullYear(),date.getMonth(),date.getDate()));
+    const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
+    return today.toLocaleDateString("es-ES", options);
+}
+
+/**
+ * 
+ * @param {string} path String that points to the file
+ * @param {Array} values Array of objects which contains the keys date and value
+ */
+export function saveJsonData(path, values) {
+    fs.writeFile(path, JSON.stringify(values, null, 2), (error) => {
+        if (error) {
+            console.log('An error has occurred ', error);
+            return;
+        }
+
+        console.log("Values saved correctyly at" + path);
+    });
 }
