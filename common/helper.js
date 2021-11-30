@@ -1,5 +1,6 @@
 const needle = require('needle');
 const fs = require('fs');
+Intl = require("intl")
 
 export async function retrieveData(params, options, url, pageOption){
     let hasNextPage = true;
@@ -59,8 +60,8 @@ const getPage = async (params, options, nextToken, url, pageOption) => {
 export function getTodayDate() {
     var date = new Date();
     var today = new Date(Date.UTC(date.getFullYear(),date.getMonth(),date.getDate()));
-    const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
-    return today.toLocaleString("es-ES", options);
+    const df = new Intl.DateTimeFormat('es', { year: 'numeric', month: 'numeric', day: 'numeric' });
+    return df.format(today);
 }
 
 /**
