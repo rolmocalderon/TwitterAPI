@@ -60,7 +60,7 @@ export function getTodayDate() {
     var date = new Date();
     var today = new Date(Date.UTC(date.getFullYear(),date.getMonth(),date.getDate()));
     const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
-    return today.toLocaleDateString("es-ES", options);
+    return today.toLocaleString("es-ES", options);
 }
 
 /**
