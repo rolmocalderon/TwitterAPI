@@ -10,11 +10,11 @@ export async function retrieveData(params, options, url, pageOption){
 
     while (hasNextPage) {
         let resp = await getPage(params, options, nextToken, url, pageOption);
-        if (resp && resp.meta && resp.meta.result_count && resp.meta.result_count > 0) {
+        if (resp) {
             if (resp.data) {
                 userTweets.push.apply(userTweets, resp.data);
             }
-            if (resp.meta.next_token) {
+            if (resp.meta && resp.meta.next_token) {
                 nextToken = resp.meta.next_token;
             } else {
                 hasNextPage = false;
